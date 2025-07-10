@@ -31,3 +31,7 @@ Esta es una aplicación web desarrollada con **Flask** que permite resolver un l
 ```bash
 git clone https://github.com/Beltraneds/AppWebLaberintoNumerico.git
 cd laberinto_numerico
+
+# En Windows
+python -m venv env
+env\Scripts\activate
