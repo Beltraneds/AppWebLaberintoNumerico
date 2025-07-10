@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Laberinto Interactivo</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <h1 id="titulo">🧩 El enigma del laberinto numérico 🧩</h1>
+    <div id="instrucciones">
+      <strong>Instrucciones:</strong>
+      <p>
+        Antes de comenzar, debes ingresar las dimensiones del laberinto (ej: 12
+        4 8\n6 2 1\n3 9 18), luego ingresa las coordenadas de inicio y fin.
+        Cuando tengas todo listo, haz clic en "Generar Laberinto".
+      </p>
+      <p>
+        Una vez que se genere el laberinto, la aplicación calculará una ruta
+        desde el inicio hasta el fin. Si la ruta existe, se te mostrarán las
+        coordenadas que deben ser recorridas. Puedes hacer clic en las celdas
+        del laberinto para moverte por él. Si la aplicación no encuentra una
+        ruta válida, se mostrará un mensaje de error.
+      </p>
+    </div>
+    <div id="consejos">
+      <strong>Consejos y recordatorios:</strong>
+      <ul>
+        <li>
+          Las coordenadas de inicio y fin deben estar dentro del rango de la
+          matriz.
+        </li>
+        <li>
+          Las coordenadas comienzan en (0, 0) en la esquina superior izquierda.
+        </li>
+        <li>
+          El cuadro azul indica el inicio del laberinto y el cuadro anaranjado
+          indica el final.
+        </li>
+        <li>
+          Para comenzar a avanzar por el laberinto, haz clic en una celda
+          adyacente al inicio.
+        </li>
+        <li>
+          Para finalizar, haz clic en el cuadro anaranjado una vez recorrido el
+          laberinto.
+        </li>
+        <li>
+          Las filas son las horizontales y las columnas son las verticales.
+        </li>
+      </ul>
+    </div>
+
+    <form method="POST" onsubmit="return validateForm()">
+      <label>Dimensiones del laberinto:</label><br />
+      <textarea
+        id="dimensiones"
+        name="dimensiones"
+        rows="5"
+        cols="40"
+        placeholder="Ejemplo: 12 4 8\n6 2 1\n3 9 18"
+        required>
+{{ input_laberinto }}</textarea
+      ><br /><br />
+
+      <label>Coordenadas de inicio:</label>
+      <div class="coord-group">
+        <div class="coord-field">
+          <span>Fila</span>
+          <input
+            type="number"
+            name="inicio_fila"
+            min="0"
+            max="9"
+            value="0"
+            required />
+        </div>
+        <div class="coord-field">
+          <span>Columna</span>
+          <input
+            type="number"
+            name="inicio_columna"
+            min="0"
+            max="9"
+            value="0"
+            required />
+        </div>
+      </div>
+
+      <label>Coordenadas de fin:</label>
+      <div class="coord-group">
+        <div class="coord-field">
+          <span>Fila</span>
+          <input
+            type="number"
+            name="fin_fila"
+            min="0"
+            max="9"
+            value="1"
+            required />
+        </div>
+        <div class="coord-field">
+          <span>Columna</span>
+          <input
+            type="number"
+            name="fin_columna"
+            min="0"
+            max="9"
+            value="2"
+            required />
+        </div>
+      </div>
+
+      <button id="btn_generar" type="submit">Generar Laberinto</button>
+    </form>
+
+    <div id="laberinto">
+      {% if request.method == 'POST' %} {% if camino %}
+      <h2 style="color: green">Ruta encontrada:</h2>
+      <p>{{ camino }}</p>
+      {% else %}
+      <h2 style="color: red">No se encontró una ruta válida.</h2>
+      {% endif %} {% endif %} {% if laberinto %}
+      <h2>Haz clic en las celdas para moverte</h2>
+      <div
+        id="grid"
+        data-start="{{ inicio[0] }},{{ inicio[1] }}"
+        data-end="{{ fin[0] }},{{ fin[1] }}"
+        data-matrix="{{ laberinto | tojson }}">
+        {% for row in laberinto %} {% set i = loop.index0 %}
+        <div class="row">
+          {% for val in row %} {% set j = loop.index0 %} {% set pos = (i, j) %}
+          <div
+            class="cell {% if pos == inicio %}start{% endif %} {% if pos == fin %} end{% endif %}"
+            data-pos="{{ i }},{{ j }}">
+            {{ val }}
+          </div>
+          {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+
+      {% endif %}
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
