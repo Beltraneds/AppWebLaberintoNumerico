@@ -31,7 +31,78 @@ Esta es una aplicación web desarrollada con **Flask** que permite resolver un l
 ```bash
 git clone https://github.com/Beltraneds/AppWebLaberintoNumerico.git
 cd laberinto_numerico
+```
 
-# En Windows
+2. Crea y activa un entorno virtual:
+
+### En Windows:
+```bash
 python -m venv env
 env\Scripts\activate
+```
+
+### En macOS/Linux:
+```bash
+python3 -m venv env
+source env/bin/activate
+```
+
+3. Instala las dependencias:
+
+```bash
+pip install flask
+```
+
+4. Ejecuta la aplicación:
+
+```bash
+flask --app app run
+```
+
+5. Abre el navegador y ve a:
+
+```bash
+http://127.0.0.1:5000/
+```
+
+### 🔧 Opción 2: Sin entorno virtual
+
+Asegúrate de tener Flask instalado globalmente.
+
+1. Clona el repositorio y accede a la carpeta:
+
+```bash
+git clone https://github.com/Beltraneds/AppWebLaberintoNumerico.git
+cd laberinto_numerico
+```
+
+2. Instala Flask (si no lo tienes):
+
+```bash
+pip install flask
+```
+
+3. Ejecuta el servidor:
+
+```bash
+flask --app app run
+```
+
+4. Abre tu navegador en:
+
+```bash
+http://127.0.0.1:5000/
+```
+
+## 📁 Estructura de carpetas
+
+```cpp
+laberinto-numerico/
+├── app.py
+├── static/
+│   ├── style.css
+│   └── script.js
+├── templates/
+│   └── index.html
+├── README.md
+```
